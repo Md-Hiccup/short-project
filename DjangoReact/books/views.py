@@ -1,4 +1,6 @@
+from json.encoder import JSONEncoder
 from django.http import HttpResponse, Http404
+from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from .models import Books
 from .form import BooksForm, UpdateBooksForm
@@ -7,14 +9,25 @@ from .form import BooksForm, UpdateBooksForm
 def home_view(request, *args, **kwargs):
     # return HttpResponse('<h1>Hello world!</h1>')
     book_list = Books.objects.all()
-    return render(request, 'component/home.html', {'book_list': book_list})
+    # return render(request, 'component/home.html', {'book_list': book_list})
+    return render(request, 'pages/home.html', context={'book_list': book_list}, status=200)
 
 def book_detail_view(request, book_id, *args, **kwargs):
+    data = {
+        'id': book_id
+    }
+    status = 200
     try:
         obj = Books.objects.get(id=book_id)
+        data['name'] = obj.name
+        data['author'] = obj.author
+        data['description'] = obj.description
     except:
-        raise Http404
-    return HttpResponse(f'<h1>Book name: "{obj.name}" Author: "{obj.author}"</h1>')
+        data['message'] = 'Not Found'
+        status = 404
+        # raise Http404
+    # return HttpResponse(f'<h1>Book name: "{obj.name}" Author: "{obj.author}"</h1>')
+    return JsonResponse(data, status=status)
 
 def book_create_view(request, *args, **kwargs):
     form = BooksForm(request.POST or None)
@@ -45,3 +58,10 @@ def book_delete_view(request, book_id, *args, **kwargs):
     print(obj)
     return redirect(home_view)
 
+def book_list(request, *args, **kwargs):
+    blist = Books.objects.all()
+    books = [{"id": x.id, "name": x.name, "author": x.author, "description":x.description} for x in blist]
+    data = {
+        "response": books
+    }
+    return JsonResponse(data)
