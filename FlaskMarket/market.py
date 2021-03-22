@@ -19,7 +19,7 @@ def home_page():
 
 
 @app.route('/market')
-def marekt_page():
+def market_page():
     items = [
         { 'id': 1, 'name': 'Phone', 'barcode': '8933224455697', 'price': 500},
         { 'id': 2, 'name': 'Laptop', 'barcode': '4554323322756', 'price': 900},
