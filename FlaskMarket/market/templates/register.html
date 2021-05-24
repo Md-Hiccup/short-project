@@ -6,11 +6,12 @@ Register Page
 
 {% block content %}
     <div class="container">
-        <h1 class="h3 my-3 font-weight-normal">
-            Please Create your Account
-        </h1>
-        <br>
         <form method="POST" class="form-register" style="color:white">
+            {{ form.hidden_tag() }}
+            <h1 class="h3 my-3 font-weight-normal">
+                Please Create your Account
+            </h1>
+            <br>
             {{ form.username.label }}
             {{ form.username(class='form-control mb-3', placeholder='User Name') }}
 
@@ -24,9 +25,9 @@ Register Page
             {{ form.password2(class='form-control mb-3', placeholder='Confirm Password ') }}
 
             <br>
-
             {{ form.submit(class='btn btn-lg btn-block btn-primary') }}
         </form>
+        <br>
     </div>
 {{ form.as_p }}
 {% endblock %}
