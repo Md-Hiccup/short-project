@@ -65,8 +65,8 @@ $ python
 >>> item1 = Item(name='iphone', price=500, barcode='819283746512', description='desc')
 >>> db.session.add(item1)
 >>> db.session.commit()
->>> item1 = Item(name='laptop', price=1000, barcode='5422283746512', description='desc 2')
->>> db.session.add(item1)
+>>> item2 = Item(name='laptop', price=1000, barcode='5422283746512', description='desc 2')
+>>> db.session.add(item2)
 >>> db.session.commit()
 >>> Item.query.all()
 
@@ -88,4 +88,10 @@ Item iphone
 >>> i = Item.query.filter_by(name='iphone').first()
 >>> i.owned_user    ## Use backref value
 <User 1>
+```
+
+### Generate Secret Key
+``` 
+>>> import os
+>>> os.urandom(12).hex()
 ```
